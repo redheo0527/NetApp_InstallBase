@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}- Upload{% endblock %}
+
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_css %}         {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ form.media }}            {# Adds date-picker required JS and CSS #}
+
+{% block content %}
+
+    <script src="http://code.jquery.com/jquery-3.1.1.js"></script>
+    <script>
+    $(function(){
+        $(document).on("change", "select[name=sanswitch]", function(){
+            var value = $(this).find("option:selected").val();
+            var flag = true;
+            if (value === 1) {
+                alert("test");
+                flag = false;
+            }
+            $("#id_sanswitchserial").val('');
+            $("#id_sanswitchserial").attr("disabled", flag);
+            $("#id_sanswitchmodel").val('');
+            $("#id_sanswitchmodel").attr("disabled", flag);
+            $("#id_sanswitchhostname").val('');
+            $("#id_sanswitchhostname").attr("disabled", flag);
+            $("#id_sanswitchport").val('');
+            $("#id_sanswitchport").attr("disabled", flag);
+            $("#id_sanswitchportlicense").val('');
+            $("#id_sanswitchportlicense").attr("disabled", flag);
+            $("#id_sanswitchipaddress").val('');
+            $("#id_sanswitchipaddress").attr("disabled", flag);
+        });
+    })
+    </script>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <br><br><br><br><br>
+            <form action="" method="post" class="post-form my-3" enctype="multipart/form-data">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary" value="Update">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

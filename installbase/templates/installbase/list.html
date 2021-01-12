@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block title %}- List{% endblock %}
+{% block content %}
+    <br><br><br><br><br><br><br><br>
+    <table  width="1000" align="center">
+    <tr>
+        <td colspan="10">
+            <form action="" method="GET">
+                <div class="col">
+                    <div style="float: right;" class="form-row">
+                        <div class="form-row">
+                            <div class="col" style="margin-top: 10px;">
+                                <select style="width: 10em;" class="custom-select custom-select-md" name="type">
+                                    <option value="all">전체</option>
+                                    <option value="customer">고객사</option>
+                                    <option value="project_name">프로젝트명</option>
+                                    <option value="model">컨트롤러 모델</option>
+                                    <option value="osversion">OS Version</option>
+                                    <option value="serialnumber">시리얼 번호</option>
+                                    <option value="hostname">호스트 네임</option>
+                                    <option value="ipslist">IP Address</option>
+                                    <option value="diskmodel">Disk Model</option>
+                                    <option value="addlist">증설 이력</option>
+                                    <option value="licensed">License</option>
+                                </select>
+                            </div>
+                            <div class="col" style="margin-top: 10px;">
+                                <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
+                                    style="width: 15em;" placeholder="검색어를 입력해주세요.">
+                            </div>
+                            <div class="col" style="margin-top: 10px;">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search_btn">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </td>
+    </tr>
+    <tr>
+        <td colspan="10"><hr></td>
+    </tr>
+    <tr>
+        <td align="center"></td>
+        <td align="center">운영/백업</td>
+        <td align="center">고객사</td>
+        <td align="center">Project<br>Name</td>
+        <td align="center">스토리지<br>모델</td>
+        <td align="center">OS 버전</td>
+        <td align="center">시리얼</td>
+        <td align="center">HOSTNAME</td>
+        <td align="center">초기<br>설치일</td>
+        <td align="center"></td>
+
+    </tr>
+    <tr>
+        <td colspan="10"><hr></td>
+    </tr>
+    {% for post in installbase_list %}
+        {% if post.deleted %}
+            <tr>
+            <td align="center">
+                {% if post.customer == "HKMC" %}
+                    <img src="/static/hyundai_car.jpg" style="width:80px">
+                {% else %}
+                    {% if post.customer == "삼성" %}
+                        <img src="/static/samsung.png" style="width:80px">
+                    {% endif %}
+                {% endif %}
+            </td>
+            <td align="center" style="color:red"><s>{{ post.production }}</s></td>
+            <td align="center" style="color:red"><s>{{ post.customer|linebreaksbr }}</s></td>
+            <td align="center" style="color:red"><s>{{ post.project_name }}</s></td>
+            <td align="center" style="color:red"><s>{{ post.model }}</s></td>
+            <td align="center" style="color:red"><s>{{ post.serialnumber|linebreaksbr }}</s></td>
+            <td align="center" style="color:red"><s>{{ post.osversion }}</s></td>
+            <td align="center" style="color:red"><s>{{ post.hostname|linebreaksbr }}</s></td>
+            <td align="center" style="color:red"><s>{{ post.installedate }}</s></td>
+            <td align="center">
+                <p class="text-center">
+                    <a href="{% url 'installbase:installbase_detail' pk=post.id %}" class="btn btn-sm btn-success">상세 확인</a>
+                </p>
+            </tr>
+            <tr>
+                <td colspan="10"><hr></td>
+            </tr>
+            <br>
+        {% else %}
+            <tr>
+            <td align="center">
+                {% if post.customer == "HKMC" %}
+                    <img src="/static/hyundai_car.jpg" style="width:80px">
+                {% else %}
+                    {% if post.customer == "삼성" %}
+                        <img src="/static/samsung.png" style="width:80px">
+                    {% endif %}
+                {% endif %}
+            </td>
+            <td align="center">
+                {% if post.production %}
+                    <span class="badge badge-primary">운영</span>
+                {% else %}
+                    <span class="badge badge-secondary">백업</span>
+                {% endif %}
+            </td>
+            <td align="center">{{ post.customer|linebreaksbr}}</td>
+            <td align="center">{{ post.project_name }}</td>
+            <td align="center">{{ post.model }}</td>
+            <td align="center">{{ post.serialnumber|linebreaksbr }}</td>
+            <td align="center">{{ post.osversion }}</td>
+            <td align="center">{{ post.hostname|linebreaksbr }}</td>
+            <td align="center">{{ post.installedate }}</td>
+            <td align="center">
+                <a href="{% url 'installbase:installbase_detail' pk=post.id %}" class="btn btn-sm btn-success">상세 확인</a>
+            </td>
+            </tr>
+            <tr>
+                <td colspan="10"><hr></td>
+            </tr>
+            <br>
+        {% endif %}
+    {% endfor %}
+    </table>
+
+    <script type="text/javascript">
+        target = window.location.search.split('&')[0].split('=')[1]
+        var type = document.getElementsByTagName('option')
+        for (var i = 0; i < 11; i++) {
+            if (type[i].value === target) {
+                type[i].setAttribute('selected', 'selected')
+            }
+        }
+    </script>
+{% endblock %}

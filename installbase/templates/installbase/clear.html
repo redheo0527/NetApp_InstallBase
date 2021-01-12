@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{object.text|truncatechars:10}}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div class="alert alert-danger"><h1>
+            {{ object }} 데이터를 완전 삭제하시겠습니까? DB 에서 데이터가 삭제 됩니다.
+            </h1>
+        </div>
+        <form action="" method="post">
+            <div style="display:none;">
+            {{ form.as_p }}
+            {% csrf_token %}
+            </div>
+            <input type="submit" class="btn btn-primary" value="Confirm">
+        </form>
+    </div>
+</div>
+{% endblock %}

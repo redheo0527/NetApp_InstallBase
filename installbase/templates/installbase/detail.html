@@ -1,0 +1,315 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{object.hostname|truncatechars:10}}
+{% endblock %}
+
+{% block content %}
+    {% if object.deleted %}
+        <br><br><br><br><br><br><br><br><br><br><br>
+        <div class="row">
+            <div class="col-2 text-center">고객사 : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.customer|linebreaksbr}}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">설치 위치 : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.installedat|linebreaksbr }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">프로젝트명 : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.project_name }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">스토리지 모델 : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.model }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">OS Version : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.osversion }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">Serial Number : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.serialnumber|linebreaksbr }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">Host Name : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.hostname }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">License : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.licensed|linebreaksbr }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">IP Lists : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.ipslist|linebreaksbr }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">Shelf Models : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.shelfmodel|linebreaksbr }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">디스크 수량 : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.disk|linebreaksbr }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">디스크 모델 : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.diskmodel|linebreaksbr }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">디스크 빈 슬롯 정보 : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.shelfemptyslot|linebreaksbr }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">컨트롤러 슬롯 정보 : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.slotinfo|linebreaksbr }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">초기 설치일 : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.installedate }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">워런티 종료일 : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.warrantydate }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">담당 엔지니어 : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.engineername }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">Controller EOA : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.controllereoa }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">Controller EOS : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.controllereos }}</s></div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">SAN Switch : </div>
+            <div class="col text-left" style="color:red"><s>
+                {% if object.sanswitch %}
+                    있음
+                {% else %}
+                    없음
+                {% endif %}</s></div>
+            <hr>
+        </div>
+        {% if object.sanswitch %}
+            <div class="row">
+                <div class="col-2 text-center">SAN Switch Serial : </div>
+                <div class="col text-left" style="color:red"><s>{{ object.sanswitchserial }}</s></div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-2 text-center">SAN Switch Model : </div>
+                <div class="col text-left" style="color:red"><s>{{ object.sanswitchmodel }}</s></div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-2 text-center">SAN Switch HostName : </div>
+                <div class="col text-left" style="color:red"><s>{{ object.sanswitchhostname }}</s></div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-2 text-center">SAN Swtich 잔여 포트 : </div>
+                <div class="col text-left" style="color:red"><s>{{ object.sanswitchport }}</s></div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-2 text-center">SAN Swtich 포트라이센스 수량 : </div>
+                <div class="col text-left" style="color:red"><s>{{ object.sanswitchportlicense }}</s></div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-2 text-center">SAN Swtich IP Address : </div>
+                <div class="col text-left" style="color:red"><s>{{ object.sanswitchipaddress }}</s></div>
+                <hr>
+            </div>
+        {% else %}
+        {% endif %}
+        <div class="row">
+            <div class="col-2 text-center">증설 이력 : </div>
+            <div class="col text-left" style="color:red"><s>{{ object.addlist|linebreaksbr }}</s></div>
+            <hr>
+        </div>
+    {% else %}
+        <br><br><br><br><br><br><br><br><br><br><br>
+        <div class="row">
+            <div class="col-2 text-center">고객사 : </div>
+            <div class="col text-left">{{ object.customer|linebreaksbr}}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">설치 위치 : </div>
+            <div class="col text-left">{{ object.installedat|linebreaksbr }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">프로젝트명 : </div>
+            <div class="col text-left">{{ object.project_name }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">스토리지 모델 : </div>
+            <div class="col text-left">{{ object.model }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">OS Version : </div>
+            <div class="col text-left">{{ object.osversion }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">Serial Number : </div>
+            <div class="col text-left">{{ object.serialnumber|linebreaksbr }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">Host Name : </div>
+            <div class="col text-left">{{ object.hostname|linebreaksbr }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">License : </div>
+            <div class="col text-left">{{ object.licensed|linebreaksbr }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">IP Lists : </div>
+            <div class="col text-left">{{ object.ipslist|linebreaksbr }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">Shelf Models : </div>
+            <div class="col text-left">{{ object.shelfmodel|linebreaksbr }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">디스크 수량 : </div>
+            <div class="col text-left">{{ object.disk|linebreaksbr }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">디스크 모델 : </div>
+            <div class="col text-left">{{ object.diskmodel|linebreaksbr }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">디스크 빈 슬롯 정보 : </div>
+            <div class="col text-left">{{ object.shelfemptyslot|linebreaksbr }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">컨트롤러 슬롯 정보 : </div>
+            <div class="col text-left">{{ object.slotinfo|linebreaksbr }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">초기 설치일 : </div>
+            <div class="col text-left">{{ object.installedate }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">워런티 종료일 : </div>
+            <div class="col text-left">{{ object.warrantydate }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">담당 엔지니어 : </div>
+            <div class="col text-left">{{ object.engineername }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">Controller EOA : </div>
+            <div class="col text-left">{{ object.controllereoa }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">Controller EOS : </div>
+            <div class="col text-left">{{ object.controllereos }}</div>
+            <hr>
+        </div>
+        <div class="row">
+            <div class="col-2 text-center">SAN Switch : </div>
+            <div class="col text-left">
+                {% if object.sanswitch %}
+                    있음
+                {% else %}
+                    없음
+                {% endif %}</div>
+            <hr>
+        </div>
+        {% if object.sanswitch %}
+            <div class="row">
+                <div class="col-2 text-center">SAN Switch Serial : </div>
+                <div class="col text-left"> {{ object.sanswitchserial }}</div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-2 text-center">SAN Switch Model : </div>
+                <div class="col text-left">{{ object.sanswitchmodel }}</div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-2 text-center">SAN Switch HostName : </div>
+                <div class="col text-left">{{ object.sanswitchhostname   }}</div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-2 text-center">SAN Swtich 잔여 포트 : </div>
+                <div class="col text-left">{{ object.sanswitchport }}</div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-2 text-center">SAN Swtich 포트라이센스 수량 : </div>
+                <div class="col text-left">{{ object.sanswitchportlicense }}</div>
+                <hr>
+            </div>
+            <div class="row">
+                <div class="col-2 text-center">SAN Swtich IP Address : </div>
+                <div class="col text-left">{{ object.sanswitchipaddress }}</div>
+                <hr>
+            </div>
+        {% else %}
+        {% endif %}
+        <div class="row">
+            <div class="col-2 text-center">증설 이력 : </div>
+            <div class="col text-left">{{ object.addlist|linebreaksbr }}</div>
+            <hr>
+        </div>
+    {% endif %}
+        <div class="row">
+            {% if object.deleted %}
+            {% else %}
+            <div class="col-2 text-center">
+                <a href="{% url 'installbase:installbase_delete' pk=object.id %}" class="btn btn-warning btn-sm float-center">삭 제</a>
+                <a href="{% url 'installbase:installbase_update' pk=object.id %}" class="btn btn-success btn-sm float-center">수 정</a>
+            </div>
+            {%  endif %}
+            {% if object.deleted %}
+            <div class="col-9 text-right">
+                <a href="{% url 'installbase:installbase_undelete' pk=object.id %}" class="btn btn-warning btn-sm float-left">삭제 취소</a>
+                <a href="{% url 'installbase:installbase_clear' pk=object.id %}" class="btn btn-danger btn-sm float-right">완전 삭제</a>
+            </div>
+            {% else %}
+            {% endif %}
+                <br>
+        </div>
+{% endblock %}
