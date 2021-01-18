@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}- List{% endblock %}
+
+
+
+{% block content %}
+    <style>
+        #wide-div {
+            width: 90vw;
+            margin-left: calc(-50vw + 54%);
+            }
+    </style>
+    <div id="wide-div" class="row">
+        <div class="col"></div>
+        <div class="col text-center">운영/백업</div>
+        <div class="col text-center">고객사</div>
+        <div class="col text-center">Project<br>Name</div>
+        <div class="col text-center">스토리지<br>모델</div>
+        <div class="col text-center">OS 버전</div>
+        <div class="col text-center">시리얼</div>
+        <div class="col text-center">HOSTNAME</div>
+        <div class="col text-center">초기<br>설치일</div>
+        <div class="col text-center"></div>
+    <hr>
+    </div>
+    {% for post in installbases %}
+        <p></p>
+        {% if post.deleted %}
+            <div id="wide-div" class="row">
+            <div class="col text-center text-danger"><s>{{ post.id}}</s></div>
+            <div class="col text-center text-danger"><s>{{ post.production}}</s></div>
+            <div class="col text-center text-danger"><s>{{ post.customer|linebreaksbr}}</s></div>
+            <div class="col text-center text-danger"><s>{{ post.project_name }}</s></div>
+            <div class="col text-center text-danger"><s>{{ post.model }}</s></div>
+            <div class="col text-center text-danger"><s>{{ post.serialnumber|linebreaksbr }}</s></div>
+            <div class="col text-center text-danger"><s>{{ post.osversion }}</s></div>
+            <div class="col text-center text-danger"><s>{{ post.hostname }}</s></div>
+            <div class="col text-center text-danger"><s>{{ post.installedate }}</s></div>
+            <div class="col text-center text-danger">
+                <p class="text-center">
+                <a href="{% url 'installbase:installbase_undelete' pk=post.id %}" class="btn btn-sm btn-primary">삭제 취소</a>
+                </p>
+            </div>
+            <br>
+        {% else %}
+            <div id="wide-div" class="row">
+            <div class="col text-center" style="width:170px">
+                {% if post.customer == "HKMC" %}
+                    <img src="static/hyundai_car.jpg" style="width:80px">
+                {% else %}
+                    {% if post.customer == "삼성" %}
+                        <img src="static/samsung.png" style="width:80px">
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="col text-center" style="width:150px">
+                {% if post.production %}
+                    <span class="badge badge-primary">운영</span>
+                {% else %}
+                    <span class="badge badge-secondary">백업</span>
+                {% endif %}
+            </div>
+            <div class="col text-center" style="width:200px">{{ post.customer|linebreaksbr}}</div>
+            <div class="col text-center">{{ post.project_name }}</div>
+            <div class="col text-center">{{ post.model }}</div>
+            <div class="col text-center">{{ post.serialnumber|linebreaksbr }}</div>
+            <div class="col text-center">{{ post.osversion }}</div>
+            <div class="col text-center">{{ post.hostname|linebreaksbr }}</div>
+            <div class="col text-center">{{ post.installedate }}</div>
+            <div class="col text-center">
+                <p class="text-center">
+                <a href="{% url 'installbase:installbase_detail' pk=post.id %}" class="btn btn-sm btn-success">상세 확인</a>
+                </p>
+            </div>
+            <br>
+        {% endif %}
+        <hr>
+        </div>
+    {% endfor %}
+{% endblock %}

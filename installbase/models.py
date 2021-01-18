@@ -1,6 +1,16 @@
 from django.db import models
 from django.urls import reverse
 from multiselectfield import MultiSelectField
+from uuid import uuid4
+from datetime import datetime
+import os
+from django.conf import settings
+
+def get_file_path(instance, filename):
+    ymd_path = datetime.now().strftime('%Y/%m/%d')
+    upload_name = filename
+    return '/'.join(['upload_file/', ymd_path, upload_name])
+
 
 
 LICENSE = (
@@ -39,13 +49,16 @@ class installbase(models.Model):
     addlist = models.TextField()
     deleted = models.BooleanField(default=False)
     delete_date = models.DateTimeField(auto_now=True)
-    sanswitch = models.BooleanField()
+    sanswitch = models.CharField(max_length=10)
     sanswitchserial = models.CharField(max_length=100, null=True, blank=True)
     sanswitchmodel = models.CharField(max_length=30, null=True, blank=True)
     sanswitchhostname = models.TextField(null=True, blank=True)
     sanswitchport = models.IntegerField(null=True, blank=True)
     sanswitchportlicense = models.IntegerField(null=True, blank=True)
     sanswitchipaddress = models.TextField(null=True, blank=True)
+    upload_files = models.FileField(upload_to=get_file_path, null=True, blank=True, verbose_name='파일')
+    filename = models.CharField(null=True, blank=True, max_length=50)
+
 
     class Meta:
         ordering = ['-installedate']
@@ -55,3 +68,8 @@ class installbase(models.Model):
 
     def get_absolute_url(self):
         return reverse('installbase:installbase_detail', args=[self.id])
+
+    def delete(self, *args, **kargs):
+        if self.upload_files:
+            os.remove(os.path.join(settings.MEDIA_ROOT, self.upload_files.path))
+        super(installbase, self).delete(*args, **kargs)

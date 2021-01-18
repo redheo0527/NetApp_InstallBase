@@ -8,6 +8,14 @@ from django.http import HttpResponse
 import csv
 from installbase.forms import InstallBaseform
 from .models import installbase
+import urllib
+from urllib.parse import urlparse
+import os
+from django.http import Http404
+import mimetypes
+from django.shortcuts import get_object_or_404
+from django.conf import settings
+
 
 class InstallBase_list(ListView):
     model = installbase
@@ -18,7 +26,24 @@ class InstallBase_list(ListView):
         global search_installbase_list
         search_keyword = self.request.GET.get('q', '')
         search_type = self.request.GET.get('type', '')
+        order = self.request.GET.get('order', '')
         installbase_list = installbase.objects.order_by('-id')
+
+        if order:
+            if order == 'id':
+                installbase_list = installbase.objects.order_by('-id')
+            elif order == 'production':
+                installbase_list = installbase.objects.order_by('-production')
+            elif order == 'customer':
+                installbase_list = installbase.objects.order_by('-customer')
+            elif order == 'project_name':
+                installbase_list = installbase.objects.order_by('-project_name')
+            elif order == 'osversion':
+                installbase_list = installbase.objects.order_by('-osversion')
+            elif order == 'sanswitch':
+                installbase_list = installbase.objects.order_by('-sanswitch')
+            elif order == 'warrantydate':
+                installbase_list = installbase.objects.order_by('-warrantydate')
 
         if search_keyword:
             if len(search_keyword) > 1:
@@ -51,8 +76,7 @@ class InstallBase_list(ListView):
                     search_installbase_list = installbase_list.filter(licensed__icontains=search_keyword)
                 return search_installbase_list
             else:
-                messages.error(self.request, '검색어는 2글자 이상 입력해주세요.')
-
+                messages.error(self.request, "검색어는 2글자 이상 입력해주세요.")
         return installbase_list
 
     def get_context_data(self, **kwargs):
@@ -67,22 +91,44 @@ class InstallBase_list(ListView):
 
         return context
 
-class InstallBaseUpdateView(UpdateView):
-    model = installbase
-    form_class = InstallBaseform
-    template_name = 'installbase/update.html'
-
 def InstallBase_create(request):
     if request.method == 'POST':
-        form = InstallBaseform(request.POST)
+        form = InstallBaseform(request.POST, request.FILES)
         if form.is_valid():
             installbase = form.save(commit=False)
-            installbase.save()
+            if request.FILES:
+                if 'upload_files' in request.FILES.keys():
+                    installbase.filename = request.FILES['upload_files'].name
+                installbase.save()
             return redirect('/')
     else:
         form = InstallBaseform()
     context = {'form': form}
     return render(request, 'installbase/upload.html', context)
+
+def InstallBaseUpdateView(request, pk):
+    Installbase = installbase.objects.get(id=pk)
+    if request.method == "POST":
+        file_change_check = request.POST.get('fileChange', False)
+        file_check = request.POST.get('upload_files-clear', False)
+
+        if file_check or file_change_check:
+            os.remove(os.path.join(settings.MEDIA_ROOT, Installbase.upload_files.path))
+
+        form = InstallBaseform(request.POST, request.FILES, instance=Installbase)
+        if form.is_valid():
+            Installbase = form.save(commit=False)
+            if request.FILES:
+                if 'upload_files' in request.FILES.keys():
+                    Installbase.filename = request.FILES['upload_files'].name
+            Installbase.save()
+            return redirect('/detail/' + str(pk))
+    else:
+        Installbase = installbase.objects.get(id=pk)
+        form = InstallBaseform(instance=Installbase)
+        return render(request, "installbase/update.html", {'form': form})
+
+
 
 class InstallBase_delete(UpdateView):
     model = installbase
@@ -96,7 +142,8 @@ class InstallBase_delete(UpdateView):
             form.instance.save()
             return redirect('/')
         else:
-            return self.render_to_response({'form':form})
+            return self.render_to_response({'form': form})
+
 
 class InstallBase_undelete(UpdateView):
     model = installbase
@@ -110,23 +157,46 @@ class InstallBase_undelete(UpdateView):
             form.instance.save()
             return redirect('/')
         else:
-            return self.render_to_response({'form':form})
+            return self.render_to_response({'form': form})
+
 
 class InstallBaseClearView(DeleteView):
     model = installbase
     success_url = '/'
     template_name = 'installbase/clear.html'
 
+
 def InstallBase_export(request):
     response = HttpResponse(content_type='text/csv')
 
-    response.write(u'\ufeff' .encode('utf8'))
+    response.write(u'\ufeff'.encode('utf8'))
 
     writer = csv.writer(response)
-    writer.writerow(['customer', 'installedat', 'project_name', 'model', 'osversion', 'serialnumber', 'hostname', 'ipslist', 'shelfmodel' ,'disk', 'diskmodel', 'shelfemptyslot', 'slotinfo', 'engineername', 'addlist', 'installedate', 'warrantydate', 'controllereoa', 'controllereos'])
+    writer.writerow(
+        ['고객사', '설치위치', '프로젝트명', '모델', 'OS버전', '시리얼', '클러스터명', 'IP정보',
+         'Shelf 모델', 'Disk', 'Disk 모델', 'Shelf 빈슬롯', '컨트롤러 슬롯정보', '증설 이력', 'SAN Switch 여부', 'SAN Switch 모델', 'SAN Switch 시리얼', 'SAN Switch HostName', 'SAN Switch IP',  'SAN Switch 잔여포트', 'SAN Switch Port License',  '초기 설치일',
+         '워런티 종료일', '담당 엔지니어', 'EOA', 'EOS'])
 
-    for installbases in installbase.objects.all().values_list('customer', 'installedat', 'project_name', 'model', 'osversion', 'serialnumber', 'hostname', 'ipslist', 'shelfmodel', 'disk', 'diskmodel', 'shelfemptyslot', 'slotinfo', 'engineername', 'addlist', 'installedate', 'warrantydate', 'controllereoa', 'controllereos'):
+    for installbases in installbase.objects.all().values_list('customer', 'installedat', 'project_name', 'model',
+                                                              'osversion', 'serialnumber', 'hostname', 'ipslist',
+                                                              'shelfmodel', 'disk', 'diskmodel', 'shelfemptyslot',
+                                                              'slotinfo', 'addlist', 'sanswitch', 'sanswitchmodel', 'sanswitchserial', 'sanswitchhostname', 'sanswitchipaddress',  'sanswitchport', 'sanswitchportlicense', 'installedate',
+                                                              'warrantydate', 'engineername', 'controllereoa', 'controllereos'):
         writer.writerow(installbases)
 
         response['Content-Disposition'] = 'attachment; filename="installbase.csv"'
     return response
+
+
+def InstallBase_download_view(request, pk):
+    download = get_object_or_404(installbase, pk=pk)
+    url = download.upload_files.url[1:]
+    file_url = urllib.parse.unquote(url)
+
+    if os.path.exists(file_url):
+        with open(file_url, 'rb') as fh:
+            quote_file_url = urllib.parse.quote(download.filename.encode('utf-8'))
+            response = HttpResponse(fh.read(), content_type=mimetypes.guess_type(file_url)[0])
+            response['Content-Disposition'] = 'attachment;filename*=UTF-8\'\'%s' % quote_file_url
+            return response
+        raise Http404

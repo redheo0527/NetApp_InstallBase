@@ -5,7 +5,7 @@ from bootstrap_datepicker_plus import DatePickerInput
 class InstallBaseform(forms.ModelForm):
     class Meta:
         model = installbase
-        fields = ['production', 'customer', 'installedat', 'project_name', 'model', 'osversion', 'serialnumber', 'hostname', 'licensed', 'ipslist', 'shelfmodel', 'disk', 'diskmodel', 'shelfemptyslot', 'slotinfo', 'installedate', 'warrantydate', 'engineername', 'controllereoa', 'controllereos', 'sanswitch', 'sanswitchserial', 'sanswitchmodel', 'sanswitchhostname', 'sanswitchport', 'sanswitchportlicense', 'sanswitchipaddress', 'addlist']
+        fields = ['production', 'customer', 'installedat', 'project_name', 'model', 'osversion', 'serialnumber', 'hostname', 'licensed', 'ipslist', 'shelfmodel', 'disk', 'diskmodel', 'shelfemptyslot', 'slotinfo', 'installedate', 'warrantydate', 'engineername', 'controllereoa', 'controllereos', 'sanswitch', 'sanswitchserial', 'sanswitchmodel', 'sanswitchhostname', 'sanswitchport', 'sanswitchportlicense', 'sanswitchipaddress', 'addlist', 'upload_files', 'filename']
         widgets = {
             'licensed': forms.CheckboxSelectMultiple(),
             'production': forms.RadioSelect(choices=((True, '운영'), (False, '백업'))),
@@ -22,20 +22,21 @@ class InstallBaseform(forms.ModelForm):
             'diskmodel': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
             'shelfemptyslot': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
             'slotinfo': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
-            'sanswitch': forms.Select(choices=((False, '없음'), (True, '있음'))),
-            'sanswitchserial': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'disabled': True}),
-            'sanswitchmodel': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'disabled': True}),
-            'sanswitchhostname': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'disabled': True}),
-            'sanswitchport': forms.TextInput(attrs={'class': 'form-control', 'disabled': True}),
-            'sanswitchportlicense': forms.TextInput(attrs={'class': 'form-control', 'disabled': True}),
-            'sanswitchipaddress': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'disabled': True}),
+            'sanswitch': forms.Select(choices=((0, '없음'), (1 , '있음'))),
+            'sanswitchserial': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
+            'sanswitchmodel': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
+            'sanswitchhostname': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
+            'sanswitchport': forms.TextInput(attrs={'class': 'form-control'}),
+            'sanswitchportlicense': forms.TextInput(attrs={'class': 'form-control'}),
+            'sanswitchipaddress': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
             'engineername': forms.TextInput(attrs={'class': 'form-control'}),
             'addlist': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
             'installedate': DatePickerInput(format='%m/%d/%Y'),
             'warrantydate': DatePickerInput(format='%m/%d/%Y'),
             'controllereoa': DatePickerInput(format='%m/%d/%Y'),
             'controllereos': DatePickerInput(format='%m/%d/%Y'),
-
+            'upload_files': forms.ClearableFileInput(),
+            'filename': forms.HiddenInput(attrs={'class': 'form-control'}),
         }
         labels = {
             'production': '운영/백업',
@@ -65,4 +66,5 @@ class InstallBaseform(forms.ModelForm):
             'sanswitchport': 'SAN Switch 잔여 포트',
             'sanswitchportlicense': 'SAN Switch 포트 라이센스 수량',
             'sanswitchipaddress': 'SAN Switch IP Address',
+            'upload_files': '첨부파일',
         }
