@@ -122,6 +122,7 @@ def InstallBaseUpdateView(request, pk):
                 if 'upload_files' in request.FILES.keys():
                     Installbase.filename = request.FILES['upload_files'].name
             Installbase.save()
+            messages.success(request, "수정되었습니다.")
             return redirect('/detail/' + str(pk))
     else:
         Installbase = installbase.objects.get(id=pk)

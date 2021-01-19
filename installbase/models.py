@@ -41,7 +41,7 @@ class installbase(models.Model):
     diskmodel = models.TextField()
     shelfemptyslot = models.TextField()
     slotinfo = models.TextField()
-    installedate = models.DateField()
+    installedate = models.DateField(null=True, blank=True)
     warrantydate = models.DateField()
     engineername = models.CharField(max_length=100)
     controllereoa = models.DateField(null=True, blank=True)

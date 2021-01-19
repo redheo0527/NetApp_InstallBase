@@ -76,10 +76,24 @@
             <td align="center">
                 {% if post.customer == "HKMC" %}
                     <img src="/static/hyundai_car.jpg" style="width:80px">
-                {% else %}
-                    {% if post.customer == "삼성" %}
-                        <img src="/static/samsung.png" style="width:80px">
-                    {% endif %}
+                {% elif post.customer == "삼성SDS" %}
+                    <img src="/static/samsung_sds.jpg" style="width:80px">
+                {% elif post.customer == "삼성전자" %}
+                    <img src="/static/samsung_elec.png" style="width:80px">
+                {% elif post.customer == "현대해상" %}
+                    <img src="/static/hyundai-insurance.jpg" style="width:80px">
+                {% elif post.customer == "더존비즈온" %}
+                    <img src="/static/douzone.jpg" style="width:80px">
+                {% elif post.customer == "KCAR" %}
+                    <img src="/static/kcar.jpg" style="width:80px">
+                {% elif post.customer == "KT 국사" %}
+                    <img src="/static/kt.png" style="width:80px">
+                {% elif post.customer == "서울시" %}
+                    <img src="/static/seoul.png" style="width:80px">
+                {% elif post.customer == "테스나" %}
+                    <img src="/static/tesna.jpg" style="width:80px">
+                {% elif post.customer == "네패스아크" %}
+                    <img src="/static/nepes.jpg" style="width:80px">
                 {% endif %}
             </td>
             <td align="center" style="color:red"><s>{{ post.id }}</s></td>
@@ -118,10 +132,22 @@
             <td align="center">
                 {% if post.customer == "HKMC" %}
                     <img src="/static/hyundai_car.jpg" style="width:80px">
-                {% else %}
-                    {% if post.customer == "삼성" %}
-                        <img src="/static/samsung.png" style="width:80px">
-                    {% endif %}
+                {% elif post.customer == "삼성SDS" %}
+                    <img src="/static/samsung_sds.jpg" style="width:80px">
+                {% elif post.customer == "삼성전자" %}
+                    <img src="/static/samsung_elec.png" style="width:80px">
+                {% elif post.customer == "현대해상" %}
+                    <img src="/static/hyundai-insurance.jpg" style="width:80px">
+                {% elif post.customer == "더존비즈온" %}
+                    <img src="/static/douzone.jpg" style="width:80px">
+                {% elif post.customer == "KCAR" %}
+                    <img src="/static/kcar.jpg" style="width:80px">
+                {% elif post.customer == "KT 국사" %}
+                    <img src="/static/kt.png" style="width:80px">
+                {% elif post.customer == "서울시" %}
+                    <img src="/static/seoul.png" style="width:80px">
+                {% elif post.customer == "테스나" %}
+                    <img src="/static/tesna.jpg" style="width:80px">
                 {% endif %}
             </td>
             <td align="center">{{ post.id}}</td>
