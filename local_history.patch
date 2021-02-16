@@ -1,0 +1,25 @@
+Index: installbase/templates/installbase/update.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/installbase/templates/installbase/update.html b/installbase/templates/installbase/update.html
+--- a/installbase/templates/installbase/update.html	(date 1610459268664)
++++ b/installbase/templates/installbase/update.html	(date 1610459268664)
+@@ -15,6 +15,7 @@
+             var value = $(this).find("option:selected").val();
+             var flag = true;
+             if (value == 1) {
++                alert('test')
+                 flag = false;
+             }
+             $("#id_sanswitchserial").val('');
+@@ -32,7 +33,7 @@
+         });
+     })
+     </script>
+-
++    
+     <div class="row">
+         <div class="col-md-2"></div>
+         <div class="col-md-8">

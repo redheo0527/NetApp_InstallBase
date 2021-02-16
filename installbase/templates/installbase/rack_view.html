@@ -1,0 +1,997 @@
+{% extends 'rack_base.html' %}
+{% block title %}
+{{object.text|truncatechars:10}}
+{% endblock %}
+
+{% block content %}
+    <style>
+        a.tip {
+        position: relative;
+    }
+
+    a.tip span {
+        display: none;
+        position: absolute;
+        top: 20px;
+        left: -10px;
+        width: 200px;
+        padding: 5px;
+        z-index: 100;
+        background: #000;
+        color: #fff;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+    }
+
+    a:hover.tip span {
+        display: block;
+    }
+
+</style>
+
+    <script>
+        var nowZoom = 100;
+        function zoomOut() {
+            nowZoom = nowZoom - 10;
+            if(nowZoom < 50){
+                alert("50% 축소 되었습니다. 더 이상 축소할 수 없습니다.");
+                if(nowZoom <= 50) nowZoom = 50;
+            }
+            zooms();
+        }
+
+        function zoomIn() {
+            nowZoom = nowZoom + 10;
+            if(nowZoom >= 100) nowZoom = 100;
+            if(nowZoom==100){
+                alert("기본 크기 입니다. 더 이상 확대할 수 없습니다.");
+            } else {
+                zooms();
+            }
+        }
+
+        function zoomReset(){
+            nowZoom = 100;
+            zooms();
+        }
+
+        function zooms(){
+            document.body.style.zoom = nowZoom + '%';
+        }
+
+    </script>
+
+    <br><br><br><br><br><br><br><br>
+
+    <table align="center" border=0 cellSpacing=0 cellPadding=0>
+        <tr>
+            {% if rack4 == "1" %}
+                <td align="center" colspan="4">
+            {% elif rack3 == "1" %}
+                <td align="center" colspan="3">
+            {% elif rack2 == "1" %}
+                <td align="center" colspan="2">
+	    {% else %}
+		<td align="center">
+            {% endif %}
+                <a href=# class="btn btn-success btn-sm float-left" id="zoomIn" onclick="zoomOut();">화면 축소</a>
+                <a href=# class="btn btn-primary btn-sm float-left" id="zoomIn" onclick="zoomReset();">화면 Reset</a>
+                <a href=# class="btn btn-success btn-sm float-left" id="zoomIn" onclick="zoomIn();">화면 확대</a>
+            </td>
+        </tr>
+        <tr>
+            {% if rack1 == "1" %}
+            <td>
+                <table align="center" border=0 cellSpacing=0 cellPadding=0>
+                    <tr>
+                        <td></td>
+                        <td align="center"><img src="/static/top.png" style="width:265px"></td>
+                    </tr>
+                    {% for i, j in unit1_context %}
+                        {% if i == 'Blank' %}
+                            <tr>
+                                <td>{{ forloop.revcounter }}____</td>
+                                <td align="center"><img src="/static/1u.png" style="width:265px"></td>
+                            </tr>
+                        {% elif i == 'NULL'%}
+                        {% elif i == '타장비 1U'%}
+                            <tr>
+                                <td>{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/other1u.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                            </tr>
+			{% elif i == '타장비 2U'%}
+                            <tr>
+                                <td>{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/other2u.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                            </tr>
+                        {% elif i == 'A800'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/A800.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'A700'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/A700.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'A400'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/A400.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8080'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8080.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8060'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8060.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8040'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8040.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8020'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8020.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS9000'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS9000.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8700'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8700.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8300'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8300.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8200'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8200.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8080'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8080.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8060'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8060.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8040'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8040.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8020'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8020.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS3200'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS3200.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2700'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2700.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2600'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2600.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2554'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2554.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2552'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2552.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2240-4'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2240-4.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2240-2'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2240-2.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS2246'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS2246.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS224C'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS224C.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS212C'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS212C.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS460C'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS460C.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS4243'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS4243.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS4246'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS4246.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'MDS SAN Switch'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/MDS.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'ATTO Bridge'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/ATTO.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'ClusterSwitch'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/CLUSTER.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'ManagementSwitch'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/MGMT.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td align="center"><img src="/static/bottom.png" style="width:265px"></td>
+                    </tr>
+                </table>
+            </td>
+	    {% else %}
+	    <td>입력된 Rack 실장이 없습니다.</td>
+            {% endif %}
+            {% if rack2 == "1" %}
+            <td>
+                <table align="center" border=0 cellSpacing=0 cellPadding=0>
+                    <tr>
+                        <td></td>
+                        <td align="center"><img src="/static/top.png" style="width:265px"></td>
+                    </tr>
+                    {% for i, j in unit2_context %}
+                        {% if i == 'Blank' %}
+                            <tr>
+                                <td>{{ forloop.revcounter }}____</td>
+                                <td align="center"><img src="/static/1u.png" style="width:265px"></td>
+                            </tr>
+                        {% elif i == 'NULL'%}
+                        {% elif i == '타장비 1U'%}
+                            <tr>
+                                <td>{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/other1u.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                            </tr>
+                        {% elif i == '타장비 2U'%}
+                            <tr>
+                                <td>{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/other2u.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                            </tr>
+                        {% elif i == 'A800'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/A800.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'A700'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/A700.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'A400'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/A400.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8080'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8080.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8060'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8060.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8040'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8040.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8020'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8020.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS9000'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS9000.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8700'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8700.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8300'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8300.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8200'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8200.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8080'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8080.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8060'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8060.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8040'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8040.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8020'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8020.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS3200'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS3200.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2700'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2700.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2600'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2600.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2554'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2554.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2552'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2552.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2240-4'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2240-4.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2240-2'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2240-2.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS2246'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS2246.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS224C'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS224C.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS212C'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS212C.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS460C'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS460C.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS4243'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS4243.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS4246'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS4246.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'MDS SAN Switch'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/MDS.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'ATTO Bridge'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/ATTO.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'ClusterSwitch'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/CLUSTER.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'ManagementSwitch'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/MGMT.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td align="center"><img src="/static/bottom.png" style="width:265px"></td>
+                    </tr>
+                </table>
+            </td>
+            {% endif %}
+            {% if rack3 == "1" %}
+            <td>
+                <table align="center" border=0 cellSpacing=0 cellPadding=0>
+                    <tr>
+                        <td></td>
+                        <td align="center"><img src="/static/top.png" style="width:265px"></td>
+                    </tr>
+                    {% for i, j in unit3_context %}
+                        {% if i == 'Blank' %}
+                            <tr>
+                                <td>{{ forloop.revcounter }}____</td>
+                                <td align="center"><img src="/static/1u.png" style="width:265px"></td>
+                            </tr>
+                        {% elif i == 'NULL'%}
+                        {% elif i == '타장비 1U'%}
+                            <tr>
+                                <td>{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/other1u.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                            </tr>
+                        {% elif i == '타장비 2U'%}
+                            <tr>
+                                <td>{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/other2u.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                            </tr>
+                        {% elif i == 'A800'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/A800.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'A700'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/A700.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'A400'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/A400.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8080'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8080.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8060'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8060.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8040'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8040.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8020'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8020.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS9000'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS9000.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8700'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8700.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8300'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8300.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8200'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8200.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8080'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8080.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8060'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8060.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8040'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8040.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8020'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8020.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS3200'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS3200.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2700'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2700.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2600'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2600.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2554'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2554.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2552'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2552.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2240-4'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2240-4.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2240-2'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2240-2.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS2246'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS2246.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS224C'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS224C.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS212C'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS212C.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS460C'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS460C.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS4243'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS4243.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS4246'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS4246.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'MDS SAN Switch'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/MDS.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'ATTO Bridge'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/ATTO.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'ClusterSwitch'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/CLUSTER.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'ManagementSwitch'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/MGMT.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td align="center"><img src="/static/bottom.png" style="width:265px"></td>
+                    </tr>
+                </table>
+            </td>
+            {% endif %}
+            {% if rack4 == "1" %}
+            <td>
+                <table align="center" border=0 cellSpacing=0 cellPadding=0>
+                    <tr>
+                        <td></td>
+                        <td align="center"><img src="/static/top.png" style="width:265px"></td>
+                    </tr>
+                    {% for i, j in unit4_context %}
+                        {% if i == 'Blank' %}
+                            <tr>
+                                <td>{{ forloop.revcounter }}____</td>
+                                <td align="center"><img src="/static/1u.png" style="width:265px"></td>
+                            </tr>
+                        {% elif i == 'NULL'%}
+                        {% elif i == '타장비 1U'%}
+                            <tr>
+                                <td>{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/other1u.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                            </tr>
+                        {% elif i == '타장비 2U'%}
+                            <tr>
+                                <td>{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/other2u.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                            </tr>
+                        {% elif i == 'A800'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/A800.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'A700'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/A700.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'A400'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/A400.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8080'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8080.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8060'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8060.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8040'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8040.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'AFF8020'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/AFF8020.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS9000'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS9000.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8700'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8700.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8300'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8300.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8200'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8200.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8080'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8080.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8060'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8060.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8040'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8040.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS8020'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS8020.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS3200'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS3200.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2700'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2700.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2600'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2600.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2554'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2554.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2552'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2552.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2240-4'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2240-4.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'FAS2240-2'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/FAS2240-2.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS2246'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS2246.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS224C'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS224C.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS212C'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS212C.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS460C'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS460C.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS4243'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS4243.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'DS4246'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/DS4246.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'MDS SAN Switch'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/MDS.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'ATTO Bridge'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/ATTO.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'ClusterSwitch'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/CLUSTER.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% elif i == 'ManagementSwitch'%}
+                            <tr>
+                                <td style="vertical-align:bottom">{{ forloop.revcounter }}____</td>
+                                <td align="center"><a href="#"  class="tip"><img src="/static/MGMT.png" style="width:265px"><span>{{ j|linebreaksbr }}</span></a></td>
+                                <td></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td align="center"><img src="/static/bottom.png" style="width:265px"></td>
+                    </tr>
+                </table>
+            </td>
+            {% endif %}
+        </tr>
+        <tr>
+            {% if rack4 == "1" %}
+                <td align="center" colspan="4">
+            {% elif rack3 == "1" %}
+                <td align="center" colspan="3">
+            {% elif rack2 == "1" %}
+                <td align="center" colspan="2">
+            {% endif %}
+            </td>
+        </tr>
+    </table>
+{% endblock %}

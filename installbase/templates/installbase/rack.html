@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{object.text|truncatechars:10}}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <br><br><br><br><br><br><br><br><br><br>
+        <div class="alert alert-danger" role="alert">
+
+            <h1> {{ object }} 를 삭제 처리 하시겠습니까?</h1>
+        </div>
+    <form action="" method="post">
+            <div style="display:none;">
+            {{ form.as_p }}
+            {% csrf_token %}
+            </div>
+            <input type="submit" class="btn btn-primary" value="Confirm">
+        </form>
+    </div>
+</div>
+{% endblock %}

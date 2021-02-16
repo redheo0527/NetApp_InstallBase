@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% block title %}- Upload{% endblock %}
+
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_css %}         {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ form.media }}            {# Adds date-picker required JS and CSS #}
+
+{% block content %}
+
+    <script src="http://code.jquery.com/jquery-3.1.1.js"></script>
+    <script>
+    $(function(){
+        $(document).ready(function () {
+            var value = $(this).find("option:selected").val();
+            if ( value == 0 ) {
+              $("#id_sanswitchserial").val('');
+                $("#id_sanswitchserial").attr("disabled", true);
+                $("#id_sanswitchmodel").val('');
+                $("#id_sanswitchmodel").attr("disabled", true);
+                $("#id_sanswitchhostname").val('');
+                $("#id_sanswitchhostname").attr("disabled", true);
+                $("#id_sanswitchport").val('');
+                $("#id_sanswitchport").attr("disabled", true);
+                $("#id_sanswitchportlicense").val('');
+                $("#id_sanswitchportlicense").attr("disabled", true);
+                $("#id_sanswitchipaddress").val('');
+                $("#id_sanswitchipaddress").attr("disabled", true);
+            }
+        })
+    })
+
+    $(function(){
+        $(document).on("change", "select[name=sanswitch]", function(){
+            var value = $(this).find("option:selected").val();
+            var flag = true;
+            if (value == true) {
+                flag = false;
+            }
+            $("#id_sanswitchserial").val('');
+            $("#id_sanswitchserial").attr("disabled", flag);
+            $("#id_sanswitchmodel").val('');
+            $("#id_sanswitchmodel").attr("disabled", flag);
+            $("#id_sanswitchhostname").val('');
+            $("#id_sanswitchhostname").attr("disabled", flag);
+            $("#id_sanswitchport").val('');
+            $("#id_sanswitchport").attr("disabled", flag);
+            $("#id_sanswitchportlicense").val('');
+            $("#id_sanswitchportlicense").attr("disabled", flag);
+            $("#id_sanswitchipaddress").val('');
+            $("#id_sanswitchipaddress").attr("disabled", flag);
+        });
+    })
+
+    $(function(){
+        $(document).ready(function () {
+            $("label[for = 'id_unit1']").hide();
+            $("#id_unit1").hide();
+            $("label[for = 'id_unit2']").hide();
+            $("#id_unit2").hide();
+            $("label[for = 'id_unit3']").hide();
+            $("#id_unit3").hide();
+            $("label[for = 'id_unit4']").hide();
+            $("#id_unit4").hide();
+            $("label[for = 'id_unit5']").hide();
+            $("#id_unit5").hide();
+            $("label[for = 'id_unit6']").hide();
+            $("#id_unit6").hide();
+            $("label[for = 'id_unit7']").hide();
+            $("#id_unit7").hide();
+            $("label[for = 'id_unit8']").hide();
+            $("#id_unit8").hide();
+            $("label[for = 'id_unit9']").hide();
+            $("#id_unit9").hide();
+            $("label[for = 'id_unit10']").hide();
+            $("#id_unit10").hide();
+            $("label[for = 'id_unit11']").hide();
+            $("#id_unit11").hide();
+            $("label[for = 'id_unit12']").hide();
+            $("#id_unit12").hide();
+            $("label[for = 'id_unit13']").hide();
+            $("#id_unit13").hide();
+            $("label[for = 'id_unit14']").hide();
+            $("#id_unit14").hide();
+            $("label[for = 'id_unit15']").hide();
+            $("#id_unit15").hide();
+            $("label[for = 'id_unit16']").hide();
+            $("#id_unit16").hide();
+            $("label[for = 'id_unit17']").hide();
+            $("#id_unit17").hide();
+            $("label[for = 'id_unit18']").hide();
+            $("#id_unit18").hide();
+            $("label[for = 'id_unit19']").hide();
+            $("#id_unit19").hide();
+            $("label[for = 'id_unit20']").hide();
+            $("#id_unit20").hide();
+            $("label[for = 'id_unit21']").hide();
+            $("#id_unit21").hide();
+            $("label[for = 'id_unit22']").hide();
+            $("#id_unit22").hide();
+            $("label[for = 'id_unit23']").hide();
+            $("#id_unit23").hide();
+            $("label[for = 'id_unit24']").hide();
+            $("#id_unit24").hide();
+            $("label[for = 'id_unit25']").hide();
+            $("#id_unit25").hide();
+            $("label[for = 'id_unit26']").hide();
+            $("#id_unit26").hide();
+            $("label[for = 'id_unit27']").hide();
+            $("#id_unit27").hide();
+            $("label[for = 'id_unit28']").hide();
+            $("#id_unit28").hide();
+            $("label[for = 'id_unit29']").hide();
+            $("#id_unit29").hide();
+            $("label[for = 'id_unit30']").hide();
+            $("#id_unit30").hide();
+            $("label[for = 'id_unit31']").hide();
+            $("#id_unit31").hide();
+            $("label[for = 'id_unit32']").hide();
+            $("#id_unit32").hide();
+            $("label[for = 'id_unit33']").hide();
+            $("#id_unit33").hide();
+            $("label[for = 'id_unit34']").hide();
+            $("#id_unit34").hide();
+            $("label[for = 'id_unit35']").hide();
+            $("#id_unit35").hide();
+            $("label[for = 'id_unit36']").hide();
+            $("#id_unit36").hide();
+            $("label[for = 'id_unit37']").hide();
+            $("#id_unit37").hide();
+            $("label[for = 'id_unit38']").hide();
+            $("#id_unit38").hide();
+            $("label[for = 'id_unit39']").hide();
+            $("#id_unit39").hide();
+            $("label[for = 'id_unit40']").hide();
+            $("#id_unit40").hide();
+            $("label[for = 'id_unit41']").hide();
+            $("#id_unit41").hide();
+            $("label[for = 'id_unit42']").hide();
+            $("#id_unit42").hide();
+        })
+    })
+
+
+    $(document).ready(function(){
+        $("#upload_files-clear_id").change(function(){
+            if($("#upload_files-clear_id").is(":checked")){
+                $("#id_filename").val("");
+            }else{
+                $("#id_filename").val("{{ object.filename }}");
+            }
+        });
+
+        $("#id_upload_files").change(function(){
+            if($("#id_upload_files").val()){
+                var file_name=($('input[type=file]')[0].files[0].name);
+                $("#id_filename").val(file_name);
+            }else{
+                $("#id_filename").val("{{ object.filename }}");
+            }
+        });
+
+        var unit1_before=$("#id_unit1").val();
+        $("#unit1_value").val(unit1_before);
+
+
+    });
+    </script>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <br><br><br><br><br>
+            <form action="" method="post" class="post-form my-3" enctype="multipart/form-data">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <div><input type="text" id="unit1_value" hidden></div>
+                <input type="submit" class="btn btn-primary" value="Update">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
