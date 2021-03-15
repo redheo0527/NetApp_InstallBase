@@ -3,7 +3,6 @@ from django.views.generic.detail import DetailView
 from .views import *
 from .models import installbase
 
-
 app_name = 'installbase'
 
 urlpatterns = [
@@ -16,5 +15,8 @@ urlpatterns = [
     path('undelete/<int:pk>', InstallBase_undelete.as_view(), name='installbase_undelete'),
     path('export/', InstallBase_export, name='installbase_export'),
     path('download/<int:pk>', InstallBase_download_view, name="installbase_download"),
+    path('rack_detail/<int:pk>', InstallBase_Rack_view, name='rack_detail'),
+    path('rack_update/<int:pk>', InstallBase_Rack_update, name='rack_update'),
+    path('storage_info/<int:pk>', storage_info, name='storage_info'),
 ]
 

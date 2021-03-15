@@ -37,9 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'installbase',
+    'ics',
     'bootstrap_datepicker_plus',
     'bootstrap4',
     'multiselectfield',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
@@ -77,8 +79,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+	'ENGINE': 'mysql.connector.django',
+        'NAME': 'netapp_installbase',
+        'USER': 'root',
+        'PASSWORD': 'dnflqntjchlrh1',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -118,6 +126,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+
+STATIC_ROOT = os.path.join(BASE_DIR,"staticfiles")
 
 BOOTSTRAP4 = {
     'include_jquery': True,

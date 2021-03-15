@@ -1,0 +1,43 @@
+{% extends 'base_ics.html' %}
+{% block title %}- Upload{% endblock %}
+
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_css %}         {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ form.media }}            {# Adds date-picker required JS and CSS #}
+
+{% block content %}
+
+<script src="http://code.jquery.com/jquery-3.1.1.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#id_part_num").val('{{ part_number }}');
+        document.getElementById("id_part_num").disabled = true;
+    })
+    $(document).submit(function() {
+        document.getElementById("id_part_num").disabled = false;
+    })
+    $(document).ready(function() {
+        $("#id_inout_id").val('{{ part_id }}');
+        document.getElementById("id_part_num").disabled = true;
+    })
+    $(document).submit(function() {
+        document.getElementById("id_inout_id").disabled = false;
+    })
+</script>
+
+    <br><br><br><br><br>
+    <div class="row">
+        <div class="col-md-2"></div>
+        {{ part_number }}
+        <div class="col-md-8">
+            <form action="" method="post" class="post-form my-3" enctype="multipart/form-data">
+                <div class="alert alert-danger" role="alert">
+                    <h1> 반입 / 반출 내역을 삭제 하시겠습니까?</h1>
+                </div>
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary" value="delete">
+            </form>
+        </div>
+    </div>
+{% endblock %}

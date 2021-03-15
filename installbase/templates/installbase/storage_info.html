@@ -1,0 +1,343 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+{% block title %}
+    {{object.hostname|truncatechars:10}}
+{% endblock %}
+
+{% block content %}
+    <script>
+        var aggr_view = 0;
+        var volume_view = 0;
+        var network_view = 0;
+        var slot_view = 0;
+        function slot_info(){
+            if(slot_view == 0){
+                $("#slot_info").show()
+                $("#slot_show").hide()
+                $("#slot_hide").show()
+                slot_view = 1;
+            } else {
+                $("#slot_info").hide()
+                $("#slot_show").show()
+                $("#slot_hide").hide()
+                slot_view = 0;
+            }
+        }
+        function aggr_info(){
+            if(aggr_view == 0){
+                $("#aggr_info").show()
+                $("#aggr_show").hide()
+                $("#aggr_hide").show()
+                aggr_view = 1;
+            } else {
+                $("#aggr_info").hide()
+                $("#aggr_show").show()
+                $("#aggr_hide").hide()
+                aggr_view = 0;
+            }
+        }
+        function volume_info(){
+            if(volume_view == 0){
+                $("#volume_info").show()
+                $("#volume_show").hide()
+                $("#volume_hide").show()
+                volume_view = 1;
+            } else {
+                $("#volume_info").hide()
+                $("#volume_show").show()
+                $("#volume_hide").hide()
+                volume_view = 0;
+            }
+        }
+        function network_info(){
+            if(network_view == 0){
+                $("#network_info").show()
+                $("#network_show").hide()
+                $("#network_hide").show()
+                network_view = 1;
+            } else {
+                $("#network_info").hide()
+                $("#network_show").show()
+                $("#network_hide").hide()
+                network_view = 0;
+            }
+        }
+    </script>
+    <style>
+    table tr:first-child th:first-child {
+      border-top-left-radius: 6px;
+    }
+
+    table tr:first-child th:last-child {
+      border-top-right-radius: 6px;
+    }
+
+    table tr:last-child td:first-child {
+      border-bottom-left-radius: 6px;
+    }
+
+    table tr:last-child td:last-child {
+      border-bottom-right-radius: 6px;
+    }
+    </style>
+    <table class="table table-bordered rounded table-striped">
+        <tr>
+            <td>
+                <button type="button" class="btn btn-primary">{{ cluster_name }}</button>
+                <button type="button" class="btn btn-outline-primary">ONTAP {{ release_version }}</button>
+                <button type="button" class="btn btn-outline-primary">Expiry Date {{ contract_end_date }}</button>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+        <tr href="#" onclick="slot_info();">
+            <td>
+                <h6><strong>Controller Slot Info  <span id="slot_show" class="badge bg-dark">+</span>
+                    <span style="display :none" id="slot_hide" class="badge bg-dark">-</span></strong></h6>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="table table-primary table-hover" id="slot_info" style="display :none">
+                    <tr>
+                        <td align="center">Slot Number</td>
+                        <td align="center">Slot Description</td>
+                        <td align="center">Part Number</td>
+                        <td align="center">Part Serial Number</td>
+                    </tr>
+                    {% for a,b,c,d in slot_info %}
+                    <tr>
+                        <td align="center">
+                            {{ a }}
+                        </td>
+                        <td align="center">
+                            {{ b }}
+                        </td>
+                        <td align="center">
+                            {{ c }}
+                        </td>
+                        <td align="center">
+                            {{ d }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+        <tr href="#" onclick="aggr_info();">
+            <td>
+                <h6><strong>Aggregate Info <span id="aggr_show" class="badge bg-dark">+</span>
+                    <span style="display :none" id="aggr_hide" class="badge bg-dark">-</span></strong></h6>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="table table-primary table-hover" id="aggr_info" style="display :none">
+                    <tr>
+                        <td align="center">Aggregate Name</td>
+                        <td align="center">Aggr Raid Type</td>
+                        <td align="center">Aggr Disk Count</td>
+                        <td align="center">Aggr Size</td>
+                        <td align="center">Aggr Used Size</td>
+                        <td align="center">Aggr Available Size</td>
+                        <td align="center">Aggr Used Percent</td>
+                        <td align="center">Aggr Raid Size</td>
+                    </tr>
+                    {% for a,b,c,d,e,f,g,h in aggr_info %}
+                    <tr>
+                        <td align="center">
+                            {{ a }}
+                        </td>
+                        <td align="center">
+                            {{ b }}
+                        </td>
+                        <td align="center">
+                            {{ c }} EA
+                        </td>
+                        <td align="center">
+                            {{ d|floatformat:2 }}TB
+                        </td>
+                        <td align="center">
+                            {{ e|floatformat:2 }}TB
+                        </td>
+                        <td align="center">
+                            {{ f|floatformat:2 }}TB
+                        </td>
+                        <td align="center">
+                            {{ g }}%
+                            {% if g < 80 %}
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width:{{ g }}%" aria-valuenow="{{ g }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            {% elif g < 90 %}
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-info" role="progressbar" style="width:{{ g }}%" aria-valuenow="{{ g }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            {% elif g < 95 %}
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width:{{ g }}%" aria-valuenow="{{ g }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            {% else %}
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width:{{ g }}%" aria-valuenow="{{ g }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td align="center">
+                            {{ h }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+        <tr href="#" onclick="volume_info();">
+            <td>
+                <h6><strong>Volume Info <span id="volume_show" class="badge bg-dark">+</span>
+                    <span style="display :none" id="volume_hide" class="badge bg-dark">-</span></strong></h6>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="table table-primary table-hover" id="volume_info" style="display :none">
+                    <tr>
+                        <td align="center">Volume Name</td>
+                        <td align="center">Aggregate</td>
+                        <td align="center">SVM Name</td>
+                        <td align="center">Size</td>
+                        <td align="center">Used Size</td>
+                        <td align="center" width="100">Used %</td>
+                        <td align="center" width="100">Snapshot %</td>
+                        <td align="center">Snapshot Count</td>
+                        <td align="center">Thin Provisioned</td>
+                    </tr>
+                    {% for a,b,c,d,e,f,g,h,i in volume_info %}
+                    <tr>
+                        <td align="center">
+                            {{ a }}
+                        </td>
+                        <td align="center">
+                            {{ b }}
+                        </td>
+                        <td align="center">
+                            {{ c }}
+                        </td>
+                        <td align="center">
+                            {% with size=1024 %}
+                                {% if d >= 1024 %}
+                                    {{ d|div:size|floatformat:2 }}TB
+                                {% else %}
+                                    {{ d }}GB
+                                {% endif %}
+                            {% endwith %}
+                        </td>
+                        <td align="center">
+                            {% with size=1024 %}
+                                {% if e >= 1024 %}
+                                    {{ e|div:size|floatformat:2 }}TB
+                                {% else %}
+                                    {{ e|floatformat:2 }}GB
+                                {% endif %}
+                            {% endwith %}
+                        </td>
+                        <td align="center">
+                            {{ f }}%
+                            {% if f < 80 %}
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width:{{ f }}%" aria-valuenow="{{ f }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            {% elif f < 90 %}
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-info" role="progressbar" style="width:{{ f }}%" aria-valuenow="{{ f }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            {% elif f < 95 %}
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width:{{ f }}%" aria-valuenow="{{ f }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            {% else %}
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width:{{ f }}%" aria-valuenow="{{ f }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td align="center">
+                            {{ g }}%
+                            {% if g < 80 %}
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ g }}%" aria-valuenow="{{ g }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            {% elif g < 90 %}
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: {{ g }}%" aria-valuenow="{{ g }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            {% elif g < 95 %}
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ g }}%" aria-valuenow="{{ g }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            {% else %}
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: {{ g }}%" aria-valuenow="{{ g }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td align="center">
+                            {{ h }}
+                        </td>
+                        <td align="center">
+                            {{ i }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+        <tr href="#" onclick="network_info();">
+            <td>
+                <h6><strong>Network Info <span id="network_show" class="badge bg-dark">+</span>
+                    <span style="display :none" id="network_hide" class="badge bg-dark">-</span></strong></h6>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table class="table table-primary table-hover" id="network_info" style="display :none">
+                    <tr>
+                        <td align="center">SVM Name</td>
+                        <td align="center">LIF Name</td>
+                        <td align="center">IP Address</td>
+                        <td align="center">Status</td>
+                        <td align="center">Role</td>
+                        <td align="center">Currunt Port</td>
+                        <td align="center">Is-Home</td>
+                    </tr>
+                    {% for a,b,c,d,e,f,g in network_interface_info %}
+                    <tr>
+                        <td align="center">
+                            {{ a }}
+                        </td>
+                        <td align="center">
+                            {{ b }}
+                        </td>
+                        <td align="center">
+                            {{ c }}
+                        </td>
+                        <td align="center">
+                            {{ d }}
+                        </td>
+                        <td align="center">
+                            {{ e }}
+                        </td>
+                        <td align="center">
+                            {{ f }}
+                        </td>
+                        <td align="center">
+                            {{ g }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

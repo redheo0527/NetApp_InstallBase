@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+{% block title %}- List{% endblock %}
+{% block content %}
+    <table  width="1300" align="center">
+    <tr>
+        <td colspan="12">
+            <form action="" method="GET" name="order">
+                <div class="col">
+                    <div style="float: left;" class="form-row">
+                        <div class="form-row">
+                            <div class="col" style="margin-top: 20px;">정렬  : </div>
+                            <div class="col" style="margin-top: 10px;">
+                                <select style="width: 10em;" class="custom-select custom-select-md" name="order">
+                                    <option name="order_list" value="id">번호</option>
+                                    <option name="order_list" value="production">운영/백업</option>
+                                    <option name="order_list" value="customer">고객사</option>
+                                    <option name="order_list" value="project_name">Project Name</option>
+                                    <option name="order_list" value="model">스토리지 모델</option>
+                                    <option name="order_list" value="osversion">OS Version</option>
+                                    <option name="order_list" value="sanswitch">SAN Switch</option>
+                                    <option name="order_list" value="warrantydate">워런티 종료일</option>
+                                </select>
+                            </div>
+                            <div class="col" style="margin-top: 10px;">
+                                <select style="width: 10em;" class="custom-select custom-select-md" name="type">
+                                    <option name="type_list" value="all">전체</option>
+                                    <option name="type_list" value="customer">고객사</option>
+                                    <option name="type_list" value="project_name">프로젝트명</option>
+                                    <option name="type_list" value="model">컨트롤러 모델</option>
+                                    <option name="type_list" value="serialnumber">시리얼 번호</option>
+                                    <option name="type_list" value="osversion">OS Version</option>
+                                    <option name="type_list" value="hostname">호스트 네임</option>
+                                    <option name="type_list" value="ipslist">IP Address</option>
+                                    <option name="type_list" value="diskmodel">Disk Model</option>
+                                    <option name="type_list" value="addlist">증설 이력</option>
+                                    <option name="type_list" value="licensed">License</option>
+                                </select>
+                            </div>
+                            <div class="col" style="margin-top: 10px;">
+                                <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
+                                    style="width: 15em;" placeholder="검색어를 입력해주세요.">
+                            </div>
+                            <div class="col" style="margin-top: 10px;">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search_btn">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="12"><hr></td>
+    </tr>
+    <tr>
+        <td align="center"></td>
+        <td align="center">번호</td>
+        <td align="center">운영/백업</td>
+        <td align="center">고객사</td>
+        <td align="center">Project<br>Name</td>
+        <td align="center">스토리지<br>모델</td>
+        <td align="center">시리얼</td>
+        <td align="center">OS 버전</td>
+        <td align="center">HOSTNAME</td>
+        <td align="center">SAN Switch</td>
+        <td align="center">워런티<br>종료일</td>
+        <td align="center"></td>
+
+    </tr>
+    <tr>
+        <td colspan="12"><hr></td>
+    </tr>
+    {% for post in installbase_list %}
+        {% if post.deleted %}
+            <tr>
+            <td align="center">
+                {% if post.customer == "현대자동차그룹" %}
+                    <img src="/static/HKMC.png" style="width:80px">
+		{% elif post.customer == "현대자동차" %}
+                    <img src="/static/hyundai_car.jpg" style="width:80px">
+                {% elif post.customer == "삼성SDS" %}
+                    <img src="/static/samsung_sds.jpg" style="width:80px">
+                {% elif post.customer == "삼성전자" %}
+                    <img src="/static/samsung_elec.png" style="width:80px">
+                {% elif post.customer == "현대해상" %}
+                    <img src="/static/hyundai-insurance.jpg" style="width:80px">
+                {% elif post.customer == "더존비즈온" %}
+                    <img src="/static/douzone.jpg" style="width:80px">
+                {% elif post.customer == "KCAR" %}
+                    <img src="/static/kcar.jpg" style="width:80px">
+                {% elif post.customer == "KT 국사" %}
+                    <img src="/static/kt.png" style="width:80px">
+                {% elif post.customer == "서울시" %}
+                    <img src="/static/seoul.png" style="width:80px">
+                {% elif post.customer == "테스나" %}
+                    <img src="/static/tesna.jpg" style="width:80px">
+                {% elif post.customer == "네패스아크" %}
+                    <img src="/static/nepes.jpg" style="width:80px">
+                {% elif post.customer == "에이블씨앤씨" %}
+                    <img src="/static/ablecnc.jpg" style="width:80px">
+                {% elif post.customer == "금융결제원" %}
+                    <img src="/static/geumyoong.jpg" style="width:80px">
+                {% elif post.customer == "삼성디스플레이" %}
+                    <img src="/static/samsungdisplay.jpg" style="width:80px">
+                {% elif post.customer == "한국전자인증" %}
+                    <img src="/static/hankookjunja.jpg" style="width:80px">
+                {% elif post.customer == "게임온" %}
+                    <img src="/static/gameon.jpg" style="width:80px">
+                {% elif post.customer == "삼일회계법인" %}
+                    <img src="/static/samil.jpg" style="width:80px">
+                {% elif post.customer == "나이스디앤비" %}
+                    <img src="/static/nicednb.jpg" style="width:80px">
+                {% elif post.customer == "강원개발공사" %}
+                    <img src="/static/kangwon.png" style="width:80px">
+                {% elif post.customer == "한국폴리텍대학교" %}
+                    <img src="/static/politech.png" style="width:80px">
+                {% elif post.customer == "한국타이어" %}
+                    <img src="/static/hankooktire.jpg" style="width:80px">
+                {% elif post.customer == "SBI저축은행" %}
+                    <img src="/static/sbi.jpg" style="width:80px">
+                {% elif post.customer == "미래로시스템" %}
+                    <img src="/static/mirero.jpg" style="width:80px">
+                {% elif post.customer == "건설공제조합" %}
+                    <img src="/static/gunseol.jpg" style="width:80px">
+                {% endif %}
+            </td>
+            <td align="center" style="color:red"><s>{{ post.id }}</s></td>
+            <td align="center">
+                {% if post.production %}
+                    <span class="badge badge-danger">운영</span>
+                {% else %}
+                    <span class="badge badge-danger">백업</span>
+                {% endif %}
+            </td>
+            <td align="center" style="color:red"><s>{{ post.customer|linebreaksbr }}</s></td>
+            <td align="center" style="color:red"><s>{{ post.project_name }}</s></td>
+            <td align="center" style="color:red"><s>{{ post.model }}</s></td>
+            <td align="center" style="color:red"><s>{{ post.serialnumber|linebreaksbr }}</s></td>
+            <td align="center" style="color:red"><s>{{ post.osversion }}</s></td>
+            <td align="center" style="color:red"><s>{{ post.hostname|linebreaksbr }}</s></td>
+            <td align="center" style="color:red"><s>
+                {% if post.sanswitch == "1" %}
+                    있음
+                {% else %}
+                    없음
+                {% endif %}
+            </s></td>
+            <td align="center" style="color:red"><s>{{ post.warrantydate }}</s></td>
+            <td align="center">
+                <p class="text-center">
+                    <a href="{% url 'installbase:installbase_detail' pk=post.id %}" class="btn btn-sm btn-success">상세 확인</a>
+                </p>
+            </tr>
+            <tr>
+                <td colspan="12"><hr></td>
+            </tr>
+
+        {% else %}
+            <tr>
+            <td align="center">
+		{% if post.customer == "현대자동차그룹" %}
+                    <img src="/static/HKMC.png" style="width:80px">
+                {% elif post.customer == "현대자동차" %}
+                    <img src="/static/hyundai_car.jpg" style="width:80px">
+                {% elif post.customer == "삼성SDS" %}
+                    <img src="/static/samsung_sds.jpg" style="width:80px">
+                {% elif post.customer == "삼성전자" %}
+                    <img src="/static/samsung_elec.png" style="width:80px">
+                {% elif post.customer == "현대해상" %}
+                    <img src="/static/hyundai-insurance.jpg" style="width:80px">
+                {% elif post.customer == "더존비즈온" %}
+                    <img src="/static/douzone.jpg" style="width:80px">
+                {% elif post.customer == "KCAR" %}
+                    <img src="/static/kcar.jpg" style="width:80px">
+                {% elif post.customer == "KT 국사" %}
+                    <img src="/static/kt.png" style="width:80px">
+                {% elif post.customer == "서울시" %}
+                    <img src="/static/seoul.png" style="width:80px">
+                {% elif post.customer == "테스나" %}
+                    <img src="/static/tesna.jpg" style="width:80px">
+		{% elif post.customer == "네패스아크" %}
+                    <img src="/static/nepes.jpg" style="width:80px">
+                {% elif post.customer == "에이블씨앤씨" %}
+                    <img src="/static/ablecnc.jpg" style="width:80px">
+                {% elif post.customer == "금융결제원" %}
+                    <img src="/static/geumyoong.jpg" style="width:80px">
+                {% elif post.customer == "삼성디스플레이" %}
+                    <img src="/static/samsungdisplay.jpg" style="width:80px">
+                {% elif post.customer == "한국전자인증" %}
+                    <img src="/static/hankookjunja.jpg" style="width:80px">
+                {% elif post.customer == "게임온" %}
+                    <img src="/static/gameon.jpg" style="width:80px">
+                {% elif post.customer == "삼일회계법인" %}
+                    <img src="/static/samil.jpg" style="width:80px">
+                {% elif post.customer == "나이스디앤비" %}
+                    <img src="/static/nicednb.jpg" style="width:80px">
+                {% elif post.customer == "강원개발공사" %}
+                    <img src="/static/kangwon.png" style="width:80px">
+                {% elif post.customer == "한국폴리텍대학교" %}
+                    <img src="/static/politech.png" style="width:80px">
+                {% elif post.customer == "한국타이어" %}
+                    <img src="/static/hankooktire.jpg" style="width:80px">
+                {% elif post.customer == "SBI저축은행" %}
+                    <img src="/static/sbi.jpg" style="width:80px">
+                {% elif post.customer == "미래로시스템" %}
+                    <img src="/static/mirero.jpg" style="width:80px">
+                {% elif post.customer == "건설공제조합" %}
+                    <img src="/static/gunseol.jpg" style="width:80px">
+                {% endif %}
+            </td>
+            <td align="center">{{ post.id}}</td>
+            <td align="center">
+                {% if post.production %}
+                    <span class="badge badge-primary">운영</span>
+                {% else %}
+                    <span class="badge badge-secondary">백업</span>
+                {% endif %}
+            </td>
+            <td align="center">{{ post.customer|linebreaksbr}}</td>
+            <td align="center">{{ post.project_name }}</td>
+            <td align="center">{{ post.model }}</td>
+            <td align="center">{{ post.serialnumber|linebreaksbr }}</td>
+            <td align="center">{{ post.osversion }}</td>
+            <td align="center">{{ post.hostname|linebreaksbr }}</td>
+            <td align="center">
+                {% if post.sanswitch == "1" %}
+                    <span class="badge badge-primary">있음</span>
+                {% else %}
+                    <span class="badge badge-secondary">없음</span>
+                {% endif %}
+            </td>
+            <td align="center">{{ post.warrantydate }}</td>
+            <td align="center">
+                <a href="{% url 'installbase:installbase_detail' pk=post.id %}" class="btn btn-sm btn-success">상세 확인</a>
+            </td>
+            </tr>
+            <tr>
+                <td colspan="12"><hr></td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+    </table>
+
+    <script type="text/javascript">
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+
+    var order_list = getUrlParameter('order');
+    var type_list = getUrlParameter('type');
+    var order = document.getElementsByName('order_list');
+    for (var i = 0; i < 8; i++) {
+      if (order[i].value === order_list) {
+        order[i].setAttribute('selected', 'selected');
+      }
+    }
+    var type = document.getElementsByName('type_list');
+    for (var i = 0; i < 11; i++) {
+      if (type[i].value === type_list) {
+        type[i].setAttribute('selected', 'selected');
+      }
+    }
+    $(function(){
+      $(document).on("change", "select[name=order]", function () {
+        var value = $(this).find("option:selected").val();
+        if ( value == 1 ) {
+          flag = false;
+        }
+	document.order.submit();
+      })
+    })
+    </script>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base_ics.html' %}
+{% block title %}- Upload{% endblock %}
+
+{% load bootstrap4 %}       {# import bootstrap4/bootstrap3 #}
+{% bootstrap_css %}         {# Embed Bootstrap CSS #}
+{% bootstrap_javascript jquery='full' %}  {# Embed Bootstrap JS+jQuery #}
+{{ form.media }}            {# Adds date-picker required JS and CSS #}
+
+{% block content %}
+
+<script src="http://code.jquery.com/jquery-3.1.1.js"></script>
+
+    <br><br><br><br><br>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <form action="" method="post" class="post-form my-3" enctype="multipart/form-data">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary" value="Upload">
+            </form>
+        </div>
+    </div>
+{% endblock %}

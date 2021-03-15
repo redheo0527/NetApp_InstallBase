@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block title %}- List{% endblock %}
 {% block content %}
-    <table  width="1300" align="center">
+    <table  width="1350" align="center">
     <tr>
         <td colspan="12">
             <form action="" method="GET" name="order">
                 <div class="col">
-                    <div style="float: right;" class="form-row">
+                    <div style="float: left;" class="form-row">
                         <div class="form-row">
                             <div class="col" style="margin-top: 20px;">정렬  : </div>
                             <div class="col" style="margin-top: 10px;">
@@ -18,6 +18,7 @@
                                     <option name="order_list" value="model">스토리지 모델</option>
                                     <option name="order_list" value="osversion">OS Version</option>
                                     <option name="order_list" value="sanswitch">SAN Switch</option>
+                                    <option name="order_list" value="warrantytype">워런티 타입</option>
                                     <option name="order_list" value="warrantydate">워런티 종료일</option>
                                 </select>
                             </div>
@@ -34,6 +35,8 @@
                                     <option name="type_list" value="diskmodel">Disk Model</option>
                                     <option name="type_list" value="addlist">증설 이력</option>
                                     <option name="type_list" value="licensed">License</option>
+                                    <option name="type_list" value="engineername">담당 엔지니어</option>
+                                    <option name="type_list" value="warrantytype">워런티 타입</option>
                                 </select>
                             </div>
                             <div class="col" style="margin-top: 10px;">
@@ -50,7 +53,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="12"><hr></td>
+        <td colspan="14"><hr></td>
     </tr>
     <tr>
         <td align="center"></td>
@@ -60,21 +63,25 @@
         <td align="center">Project<br>Name</td>
         <td align="center">스토리지<br>모델</td>
         <td align="center">시리얼</td>
+	<td align="center">Active IQ</td>
         <td align="center">OS 버전</td>
         <td align="center">HOSTNAME</td>
         <td align="center">SAN Switch</td>
+        <td align="center">워런티<br>타입</td>
         <td align="center">워런티<br>종료일</td>
         <td align="center"></td>
 
     </tr>
     <tr>
-        <td colspan="12"><hr></td>
+        <td colspan="14"><hr></td
     </tr>
     {% for post in installbase_list %}
         {% if post.deleted %}
             <tr>
             <td align="center">
-                {% if post.customer == "HKMC" %}
+                {% if post.customer == "현대자동차그룹" %}
+                    <img src="/static/HKMC.png" style="width:80px">
+		{% elif post.customer == "현대자동차" %}
                     <img src="/static/hyundai_car.jpg" style="width:80px">
                 {% elif post.customer == "삼성SDS" %}
                     <img src="/static/samsung_sds.jpg" style="width:80px">
@@ -94,6 +101,50 @@
                     <img src="/static/tesna.jpg" style="width:80px">
                 {% elif post.customer == "네패스아크" %}
                     <img src="/static/nepes.jpg" style="width:80px">
+                {% elif post.customer == "에이블씨앤씨" %}
+                    <img src="/static/ablecnc.jpg" style="width:80px">
+                {% elif post.customer == "금융결제원" %}
+                    <img src="/static/geumyoong.jpg" style="width:80px">
+                {% elif post.customer == "삼성디스플레이" %}
+                    <img src="/static/samsungdisplay.jpg" style="width:80px">
+                {% elif post.customer == "한국전자인증" %}
+                    <img src="/static/hankookjunja.jpg" style="width:80px">
+                {% elif post.customer == "게임온" %}
+                    <img src="/static/gameon.jpg" style="width:80px">
+                {% elif post.customer == "삼일회계법인" %}
+                    <img src="/static/samil.jpg" style="width:80px">
+                {% elif post.customer == "나이스디앤비" %}
+                    <img src="/static/nicednb.jpg" style="width:80px">
+                {% elif post.customer == "강원개발공사" %}
+                    <img src="/static/kangwon.png" style="width:80px">
+                {% elif post.customer == "한국폴리텍대학교" %}
+                    <img src="/static/politech.png" style="width:80px">
+                {% elif post.customer == "한국타이어" %}
+                    <img src="/static/hankooktire.jpg" style="width:80px">
+                {% elif post.customer == "SBI저축은행" %}
+                    <img src="/static/sbi.jpg" style="width:80px">
+                {% elif post.customer == "미래로시스템" %}
+                    <img src="/static/mirero.jpg" style="width:80px">
+                {% elif post.customer == "건설공제조합" %}
+                    <img src="/static/gunseol.jpg" style="width:80px">
+                {% elif post.customer == "하나투어" %}
+                    <img src="/static/hanatour.jpg" style="width:80px">
+                {% elif post.customer == "SK텔링크" %}
+                    <img src="/static/sktelink.png" style="width:80px">
+                {% elif post.customer == "나이스디앤비" %}
+                    <img src="/static/nicednb.jfif" style="width:80px">
+                {% elif post.customer == "한국남동발전" %}
+                    <img src="/static/koreaenergy.jfif" style="width:80px">
+                {% elif post.customer == "신세계INC" %}
+                    <img src="/static/shinsegaeinc.jpg" style="width:80px">
+                {% elif post.customer == "모아저축은행" %}
+                    <img src="/static/moa.jpg" style="width:80px">
+                {% elif post.customer == "대림건설" %}
+                    <img src="/static/daelim.png" style="width:80px">
+                {% elif post.customer == "알펜시아" %}
+                    <img src="/static/alpensia.jpg" style="width:80px">
+                {% elif post.customer == "국방과학연구소" %}
+                    <img src="/static/add.jfif" style="width:80px">
                 {% endif %}
             </td>
             <td align="center" style="color:red"><s>{{ post.id }}</s></td>
@@ -108,7 +159,14 @@
             <td align="center" style="color:red"><s>{{ post.project_name }}</s></td>
             <td align="center" style="color:red"><s>{{ post.model }}</s></td>
             <td align="center" style="color:red"><s>{{ post.serialnumber|linebreaksbr }}</s></td>
-            <td align="center" style="color:red"><s>{{ post.osversion }}></s></td>
+	    <td align="center"><s>
+                {% if post.activeiq %}
+                <span class="badge bg-primary">Active IQ</span>
+                {% else %}
+                <span class="badge bg-warning text-dark">Active IQ</span>
+                {% endif %}
+            </s></td>
+            <td align="center" style="color:red"><s>{{ post.osversion }}</s></td>
             <td align="center" style="color:red"><s>{{ post.hostname|linebreaksbr }}</s></td>
             <td align="center" style="color:red"><s>
                 {% if post.sanswitch == "1" %}
@@ -117,6 +175,15 @@
                     없음
                 {% endif %}
             </s></td>
+            <td align="center">
+                {% if post.warrantytype == "무상" %}
+                    <span class="badge badge-primary">무상</span>
+                {% elif post.warrantytype == "유상" %}
+                    <span class="badge badge-success">유상</span>
+                {% else %}
+                    <span class="badge badge-warning">타부서</span>
+                {% endif %}
+            </td>
             <td align="center" style="color:red"><s>{{ post.warrantydate }}</s></td>
             <td align="center">
                 <p class="text-center">
@@ -124,13 +191,15 @@
                 </p>
             </tr>
             <tr>
-                <td colspan="12"><hr></td>
+                <td colspan="14"><hr></td>
             </tr>
 
         {% else %}
             <tr>
             <td align="center">
-                {% if post.customer == "HKMC" %}
+		{% if post.customer == "현대자동차그룹" %}
+                    <img src="/static/HKMC.png" style="width:80px">
+                {% elif post.customer == "현대자동차" %}
                     <img src="/static/hyundai_car.jpg" style="width:80px">
                 {% elif post.customer == "삼성SDS" %}
                     <img src="/static/samsung_sds.jpg" style="width:80px">
@@ -148,6 +217,52 @@
                     <img src="/static/seoul.png" style="width:80px">
                 {% elif post.customer == "테스나" %}
                     <img src="/static/tesna.jpg" style="width:80px">
+		{% elif post.customer == "네패스아크" %}
+                    <img src="/static/nepes.jpg" style="width:80px">
+                {% elif post.customer == "에이블씨앤씨" %}
+                    <img src="/static/ablecnc.jpg" style="width:80px">
+                {% elif post.customer == "금융결제원" %}
+                    <img src="/static/geumyoong.jpg" style="width:80px">
+                {% elif post.customer == "삼성디스플레이" %}
+                    <img src="/static/samsungdisplay.jpg" style="width:80px">
+                {% elif post.customer == "한국전자인증" %}
+                    <img src="/static/hankookjunja.jpg" style="width:80px">
+                {% elif post.customer == "게임온" %}
+                    <img src="/static/gameon.jpg" style="width:80px">
+                {% elif post.customer == "삼일회계법인" %}
+                    <img src="/static/samil.jpg" style="width:80px">
+                {% elif post.customer == "나이스디앤비" %}
+                    <img src="/static/nicednb.jpg" style="width:80px">
+                {% elif post.customer == "강원개발공사" %}
+                    <img src="/static/kangwon.png" style="width:80px">
+                {% elif post.customer == "한국폴리텍대학교" %}
+                    <img src="/static/politech.png" style="width:80px">
+                {% elif post.customer == "한국타이어" %}
+                    <img src="/static/hankooktire.jpg" style="width:80px">
+                {% elif post.customer == "SBI저축은행" %}
+                    <img src="/static/sbi.jpg" style="width:80px">
+                {% elif post.customer == "미래로시스템" %}
+                    <img src="/static/mirero.jpg" style="width:80px">
+                {% elif post.customer == "건설공제조합" %}
+                    <img src="/static/gunseol.jpg" style="width:80px">
+                {% elif post.customer == "하나투어" %}
+                    <img src="/static/hanatour.jpg" style="width:80px">
+                {% elif post.customer == "SK텔링크" %}
+                    <img src="/static/sktelink.png" style="width:80px">
+                {% elif post.customer == "나이스디앤비" %}
+                    <img src="/static/nicednb.jfif" style="width:80px">
+                {% elif post.customer == "한국남동발전" %}
+                    <img src="/static/koreaenergy.jfif" style="width:80px">
+                {% elif post.customer == "신세계INC" %}
+                    <img src="/static/shinsegaeinc.jpg" style="width:80px">
+                {% elif post.customer == "모아저축은행" %}
+                    <img src="/static/moa.jpg" style="width:80px">
+                {% elif post.customer == "대림건설" %}
+                    <img src="/static/daelim.png" style="width:80px">
+                {% elif post.customer == "알펜시아" %}
+                    <img src="/static/alpensia.jpg" style="width:80px">
+                {% elif post.customer == "국방과학연구소" %}
+                    <img src="/static/add.jfif" style="width:80px">
                 {% endif %}
             </td>
             <td align="center">{{ post.id}}</td>
@@ -162,6 +277,13 @@
             <td align="center">{{ post.project_name }}</td>
             <td align="center">{{ post.model }}</td>
             <td align="center">{{ post.serialnumber|linebreaksbr }}</td>
+	    <td align="center">
+		{% if post.activeiq %}
+		<span class="badge bg-primary">Active IQ</span>
+		{% else %}
+		<span class="badge bg-warning text-dark">Active IQ</span>
+		{% endif %}
+	    </td>
             <td align="center">{{ post.osversion }}</td>
             <td align="center">{{ post.hostname|linebreaksbr }}</td>
             <td align="center">
@@ -171,13 +293,22 @@
                     <span class="badge badge-secondary">없음</span>
                 {% endif %}
             </td>
+            <td align="center">
+                {% if post.warrantytype == "무상" %}
+                    <span class="badge badge-primary">무상</span>
+                {% elif post.warrantytype == "유상" %}
+                    <span class="badge badge-success">유상</span>
+                {% else %}
+                    <span class="badge badge-warning">타부서</span>
+                {% endif %}
+            </td>
             <td align="center">{{ post.warrantydate }}</td>
             <td align="center">
                 <a href="{% url 'installbase:installbase_detail' pk=post.id %}" class="btn btn-sm btn-success">상세 확인</a>
             </td>
             </tr>
             <tr>
-                <td colspan="12"><hr></td>
+                <td colspan="14"><hr></td>
             </tr>
         {% endif %}
     {% endfor %}
@@ -202,13 +333,13 @@
     var order_list = getUrlParameter('order');
     var type_list = getUrlParameter('type');
     var order = document.getElementsByName('order_list');
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < 9; i++) {
       if (order[i].value === order_list) {
         order[i].setAttribute('selected', 'selected');
       }
     }
     var type = document.getElementsByName('type_list');
-    for (var i = 0; i < 11; i++) {
+    for (var i = 0; i < 13; i++) {
       if (type[i].value === type_list) {
         type[i].setAttribute('selected', 'selected');
       }
@@ -219,6 +350,7 @@
         if ( value == 1 ) {
           flag = false;
         }
+	document.order.submit();
       })
     })
     </script>

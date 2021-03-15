@@ -7,7 +7,20 @@
     {% if object.deleted %}
         <s style="color:red">
     {% endif %}
-        <br><br><br><br>
+        <br><br>
+	<div class="row">
+	    <div class="col-1 text-center"><a onclick="window.open('{% url 'installbase:rack_detail' pk=object.id %}','{{ object.id }} 실장도','width=1300,height=1200,location=no,status=no,scrollbars=no');" class="btn btn-success btn-sm float-center">Rack 실장 확인</a></div>
+            <div class="col-1 text-center"><a href="{% url 'installbase:rack_update' pk=object.id %}" class="btn btn-success btn-sm float-center">Rack 실장 수정</a></div>
+        </div>
+	<br><br>
+	<div class="row">
+            {% if object.activeiq %}
+            <div class="col-3 text-left">
+                <div class="col-1 text-center"><a href="{% url 'installbase:storage_info' pk=object.id %}" class="btn btn-primary btn-sm float-center">AIQ 스토리지 정보</a></div>
+                <br>
+            </div>
+            {% endif %}
+        </div>
         <div class="row">
             <div class="col-2 text-center">고객사 : </div>
             <div class="col text-left">{{ object.customer|linebreaksbr}}</div>
@@ -145,6 +158,14 @@
             <hr>
         </div>
         <div class="row">
+            <div class="col-2 text-center">고객 담당자 : </div>
+            <div class="col text-left">{{ object.customer_manager }}</div>
+        </div>
+        <div class="row">
+            <br>
+            <hr>
+        </div>
+        <div class="row">
             <div class="col-2 text-center">Controller EOA : </div>
             <div class="col text-left">{{ object.controllereoa }}</div>
         </div>
@@ -176,7 +197,7 @@
         {% if object.sanswitch == "1" %}
             <div class="row">
                 <div class="col-2 text-center">SAN Switch Serial : </div>
-                <div class="col text-left"> {{ object.sanswitchserial }}</div>
+                <div class="col text-left"> {{ object.sanswitchserial|linebreaksbr }}</div>
             </div>
             <div class="row">
                 <br>
@@ -184,7 +205,7 @@
             </div>
             <div class="row">
                 <div class="col-2 text-center">SAN Switch Model : </div>
-                <div class="col text-left">{{ object.sanswitchmodel }}</div>
+                <div class="col text-left">{{ object.sanswitchmodel|linebreaksbr }}</div>
             </div>
             <div class="row">
                 <br>
@@ -192,7 +213,7 @@
             </div>
             <div class="row">
                 <div class="col-2 text-center">SAN Switch HostName : </div>
-                <div class="col text-left">{{ object.sanswitchhostname   }}</div>
+                <div class="col text-left">{{ object.sanswitchhostname|linebreaksbr   }}</div>
             </div>
             <div class="row">
                 <br>
@@ -200,7 +221,7 @@
             </div>
             <div class="row">
                 <div class="col-2 text-center">SAN Swtich 잔여 포트 : </div>
-                <div class="col text-left">{{ object.sanswitchport }}</div>
+                <div class="col text-left">{{ object.sanswitchport|linebreaksbr }}</div>
             </div>
             <div class="row">
                 <br>
@@ -208,7 +229,7 @@
             </div>
             <div class="row">
                 <div class="col-2 text-center">SAN Swtich 포트라이센스 수량 : </div>
-                <div class="col text-left">{{ object.sanswitchportlicense }}</div>
+                <div class="col text-left">{{ object.sanswitchportlicense|linebreaksbr }}</div>
             </div>
             <div class="row">
                 <br>
@@ -216,7 +237,7 @@
             </div>
             <div class="row">
                 <div class="col-2 text-center">SAN Swtich IP Address : </div>
-                <div class="col text-left">{{ object.sanswitchipaddress }}</div>
+                <div class="col text-left">{{ object.sanswitchipaddress|linebreaksbr }}</div>
             </div>
             <div class="row">
                 <br>

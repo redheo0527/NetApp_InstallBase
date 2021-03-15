@@ -23,10 +23,11 @@
 <body>
 <div class="container">
     <header class="header clearfix">
-        <nav class="navbar navbar-light bg-light" style="width: 1300px">
+        <nav class="navbar navbar-light bg-light" style="width: 1350px">
             <a class="navbar-brand" href="/"><img src="/static/NetApp_logo.png" style="width:80px" alt="">    NetApp Install Base</a>
             <form class="form-inline">
                 <ul class="nav text-left">
+                    <a class="btn btn-outline-primary" href="{% url 'ics:part_list' %}" role="button">ICS 재고관리시스템</a>
                     <a class="btn btn-outline-success" href="{% url 'installbase:installbase_upload' %}" role="button">장비등록</a>
                     <a class="btn btn-outline-primary" href="{% url 'installbase:installbase_export' %}" role="button">CSV 내보내기</a>
                 </ul>

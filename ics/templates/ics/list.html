@@ -1,0 +1,169 @@
+{% extends 'base_ics.html' %}
+{% block title %}- List{% endblock %}
+{% block content %}
+    <script src="http://code.jquery.com/jquery-3.1.1.js"></script>
+    <script>
+        var inout_open = new Array();
+        function inout(inout){
+            var inout_id = '#inout_' + inout;
+            var inout_id_hr = '#inout_' + inout + '_hr';
+            if(inout_open[inout] == 0 || inout_open[inout] == null){
+                $(inout_id).show()
+                $(inout_id_hr).show()
+                inout_open[inout] = 1;
+            } else {
+                $(inout_id).hide()
+                $(inout_id_hr).hide()
+                inout_open[inout] = 0;
+            }
+        }
+    </script>
+    <table  width="1300" align="center">
+    <tr>
+        <td colspan="12">
+            <form action="" method="GET" name="order">
+                <div class="col">
+                    <div style="float: right;" class="form-row">
+                        <div class="form-row">
+                            <div class="col" style="margin-top: 20px;">정렬  : </div>
+                            <div class="col" style="margin-top: 10px;">
+                                <select style="width: 10em;" class="custom-select custom-select-md" name="order">
+                                    <option name="order_list" value="id">번호</option>
+                                    <option name="order_list" value="production">Part_Number</option>
+                                    <option name="order_list" value="customer">Part_Description</option>
+                                    <option name="order_list" value="project_name">수량</option>
+                                </select>
+                            </div>
+                            <div class="col" style="margin-top: 10px;">
+                                <select style="width: 10em;" class="custom-select custom-select-md" name="type">
+                                    <option name="type_list" value="all">전체</option>
+                                    <option name="type_list" value="part_num">Part_Number</option>
+                                    <option name="type_list" value="part_description">Part_Description</option>
+                                </select>
+                            </div>
+                            <div class="col" style="margin-top: 10px;">
+                                <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
+                                    style="width: 15em;" placeholder="검색어를 입력해주세요.">
+                            </div>
+                            <div class="col" style="margin-top: 10px;">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="search_btn">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5"><hr></td>
+    </tr>
+    <tr>
+        <td align="center" width="100"></td>
+        <td align="center" width="200">Part Number</td>
+        <td align="center" width="200">수량</td>
+        <td align="center" width="700">Part Description</td>
+        <td align="center" width="100"></td>
+
+    </tr>
+    <tr>
+        <td colspan="5"><hr></td>
+    </tr>
+    {% for post in part_list.part_list %}
+    <tr onclick="inout('{{ post.id }}');">
+        <td align="center" width="100">{{ post.id }}</td>
+        <td align="center" width="200">{{ post.part_num }}</td>
+        <td align="center" width="200">{{ post.ea }}</td>
+        <td align="center" width="700">{{ post.part_description }}</td>
+        <td align="center" width="100"><a href="{% url 'ics:part_inout' pk=post.id %}" class="btn btn-sm btn-success">반입/반출 등록</a></td>
+    </tr>
+    <tr>
+        <td colspan="5"><hr></td>
+    </tr>
+    <tr style="display :none" id="inout_{{ post.id }}">
+        <td colspan="5" align="center">
+            <table width="1100">
+                <tr>
+                    <td colspan="6"><hr></td>
+                </tr>
+                <tr>
+                    <td align="center" width="100">날짜</td>
+                    <td align="center" width="100">반입/반출</td>
+                    <td align="center" width="100">수량</td>
+                    <td align="center" width="100">사용자</td>
+                    <td align="center" width="600">프로젝트 명</td>
+                    <td align="center" width="100"></td>
+                </tr>
+                {% for inout in part_list.inout_list %}
+                    {% if post.id == inout.inout_id.id %}
+                <tr>
+                    <td colspan="6"><hr></td>
+                </tr>
+                <tr>
+                    <td align="center">{{ inout.ics_update }}</td>
+                    {% if inout.inout == 0 %}
+                    <td align="center"><span class="badge badge-primary">반입</span></td>
+                    {% else %}
+                    <td align="center"><span class="badge badge-danger">반출</span></td>
+                    {% endif %}
+                    <td align="center">{{ inout.ea }}</td>
+                    <td align="center">{{ inout.user }}</td>
+                    <td align="center">{{ inout.project_name }}</td>
+                    <td align="center"><a href="{% url 'ics:part_inout_delete' pk=post.id inoutid=inout.id %}" class="badge badge-danger">X</a></td>
+                </tr>
+
+                    {% endif %}
+                {% endfor %}
+            <tr>
+                    <td colspan="6"><hr></td>
+            </tr>
+            </table>
+        </td>
+    </tr>
+    <tr style="display :none" id="inout_{{ post.id }}_hr">
+        <td colspan="5"><hr></td>
+    </tr>
+    {% endfor %}
+
+    </table>
+
+    <script type="text/javascript">
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+
+    var order_list = getUrlParameter('order');
+    var type_list = getUrlParameter('type');
+    var order = document.getElementsByName('order_list');
+    for (var i = 0; i < 4; i++) {
+      if (order[i].value === order_list) {
+        order[i].setAttribute('selected', 'selected');
+      }
+    }
+    var type = document.getElementsByName('type_list');
+    for (var i = 0; i < 3; i++) {
+      if (type[i].value === type_list) {
+        type[i].setAttribute('selected', 'selected');
+      }
+    }
+    $(function(){
+      $(document).on("change", "select[name=order]", function () {
+        var value = $(this).find("option:selected").val();
+        if ( value == 1 ) {
+          flag = false;
+        }
+        document.order.submit();
+      })
+    })
+    </script>
+{% endblock %}
